@@ -1,0 +1,19 @@
+# pdf_filters: stream data tokens (see fuzz_targets/pdf_filters.rs)
+# ASCIIHex / ASCII85 end-of-data and specials
+">"
+"~>"
+"z"
+"s8W-!"
+# RunLength: end-of-data, a 128-byte repeat, a 1-byte literal
+"\x80"
+"\x81\x00"
+"\x00A"
+# LZW (9-bit, MSB first): Clear at the start; Clear + EOD
+"\x80\x00"
+"\x80\x20\x10"
+# zlib header
+"x\x9c"
+# content syntax
+" 3 Tr "
+"BT"
+"ET"

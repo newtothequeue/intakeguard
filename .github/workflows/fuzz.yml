@@ -1,0 +1,84 @@
+name: fuzz
+
+# Coverage-guided fuzzing of the IntakeGuard core (cargo-fuzz / libFuzzer). See tools/fuzz/README.md.
+# - nightly: 25 minutes per target, corpus carried over between runs (actions/cache)
+# - pull requests touching core/ or tools/fuzz/: a 60-second smoke run per target
+# - manual: choose the duration
+# A crash fails the job and uploads the input (raw and minimized) as an artifact.
+
+on:
+  schedule:
+    - cron: "41 2 * * *"
+  pull_request:
+    paths:
+      - "core/**"
+      - "tools/fuzz/**"
+      - ".github/workflows/fuzz.yml"
+  workflow_dispatch:
+    inputs:
+      seconds:
+        description: "Seconds per target"
+        default: "1500"
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    name: fuzz (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [sanitize_any, pdf, pdf_filters, png, jpeg, webp]
+    env:
+      SECONDS_PER_TARGET: ${{ github.event_name == 'pull_request' && '60' || (inputs.seconds || '1500') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r tools/requirements.txt
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: cargo-fuzz (cached)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/cargo-fuzz
+          key: cargo-fuzz-0.13-${{ runner.os }}
+      - run: command -v cargo-fuzz || cargo install cargo-fuzz --locked --version 0.13.2
+      - name: corpus from previous runs
+        uses: actions/cache/restore@v4
+        with:
+          path: tools/fuzz/corpus/${{ matrix.target }}
+          key: fuzz-corpus-${{ matrix.target }}-${{ github.run_id }}
+          restore-keys: fuzz-corpus-${{ matrix.target }}-
+      - name: seeds (conformance corpus + encoder variants)
+        run: |
+          python tools/corpus-verify/verify.py --build-only
+          python tools/fuzz/seed.py
+      - name: fuzz
+        run: |
+          dict=""
+          [ -f tools/fuzz/dict/${{ matrix.target }}.dict ] && dict="-dict=tools/fuzz/dict/${{ matrix.target }}.dict"
+          cargo +nightly fuzz run -O --fuzz-dir tools/fuzz ${{ matrix.target }} tools/fuzz/corpus/${{ matrix.target }} -- \
+            -max_total_time=$SECONDS_PER_TARGET -rss_limit_mb=2048 -timeout=10 $dict -print_final_stats=1
+      - name: minimize crashes
+        if: failure()
+        run: |
+          for f in tools/fuzz/artifacts/${{ matrix.target }}/*; do
+            [ -f "$f" ] || continue
+            cargo +nightly fuzz tmin -O --fuzz-dir tools/fuzz ${{ matrix.target }} "$f" -- -runs=2000 || true
+          done
+          ls -la tools/fuzz/artifacts/${{ matrix.target }}/ || true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: fuzz-crash-${{ matrix.target }}
+          path: tools/fuzz/artifacts/${{ matrix.target }}/
+      - name: save corpus
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/cache/save@v4
+        with:
+          path: tools/fuzz/corpus/${{ matrix.target }}
+          key: fuzz-corpus-${{ matrix.target }}-${{ github.run_id }}

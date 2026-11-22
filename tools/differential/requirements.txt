@@ -1,0 +1,4 @@
+# Verification-only tools (not core dependencies). Plus the intakeguard wheel (make wheel).
+Pillow>=10
+pikepdf>=8
+# optional: the qpdf CLI on PATH, for an extra independent structural check

@@ -1,0 +1,133 @@
+name: release
+
+# Builds wheels for every supported platform plus an sdist, gates EVERY wheel on the conformance suite, then
+# publishes to PyPI with trusted publishing (OIDC: no API tokens stored anywhere).
+#
+# Trigger: push a tag like v0.1.0a1, or run manually (manual runs default to TestPyPI).
+# One-time setup on PyPI (owner): add a "trusted publisher" for this repo + workflow `release.yml` +
+# environment `pypi` (and `testpypi` on test.pypi.org). In GitHub, create both environments; require a manual
+# approval on `pypi` so nothing reaches PyPI without the owner clicking "approve" (maintainer gate in CONTRIBUTING.md).
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to publish"
+        type: choice
+        options: [testpypi, pypi]
+        default: testpypi
+
+permissions:
+  contents: read
+
+jobs:
+  spec-and-corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python -m pip install -r tools/requirements.txt
+      - run: make check
+
+  wheels:
+    needs: spec-and-corpus
+    name: wheel (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { name: linux-x86_64,   os: ubuntu-latest,  target: x86_64,  manylinux: "2014", gate: true }
+          - { name: linux-aarch64,  os: ubuntu-latest,  target: aarch64, manylinux: "2014", gate: false } # cross-built; gated by the linux-aarch64 smoke job below
+          - { name: macos-arm64,    os: macos-15,       target: aarch64, manylinux: "",     gate: true }
+          - { name: macos-x86_64,   os: macos-15-intel, target: x86_64,  manylinux: "",     gate: true }
+          - { name: windows-x86_64, os: windows-latest, target: x64,     manylinux: "",     gate: true }
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: build abi3 wheel
+        uses: PyO3/maturin-action@v1
+        with:
+          working-directory: bindings/python
+          target: ${{ matrix.target }}
+          manylinux: ${{ matrix.manylinux || 'off' }}
+          args: --release --out ../../dist
+      - name: conformance gate on the exact wheel being shipped
+        if: matrix.gate
+        run: |
+          python -m pip install -r tools/requirements.txt
+          python -m pip install dist/*.whl
+          python tools/corpus-verify/verify.py
+          python -m pip install maturin
+          cargo build --release -p intakeguard-core --example inspect_file
+          python tools/benchmark/bakeoff.py --quick --gate --out dist/conformance-${{ matrix.name }}.json
+          python -m pip install pytest -r examples/python-rag-ingestion/requirements.txt
+          python -m pytest -q bindings/python/tests
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.name }}
+          path: dist/*.whl
+
+  linux-aarch64-smoke:
+    needs: wheels
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/download-artifact@v4
+        with: { name: dist-linux-aarch64, path: dist }
+      - run: |
+          python -m pip install -r tools/requirements.txt dist/*.whl
+          python tools/corpus-verify/verify.py
+          python -c "import intakeguard, json; print(intakeguard.ENGINE_VERSION)"
+          python -m pip install pytest -r examples/python-rag-ingestion/requirements.txt
+          python -m pytest -q bindings/python/tests
+
+  sdist:
+    needs: spec-and-corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: PyO3/maturin-action@v1
+        with:
+          working-directory: bindings/python
+          command: sdist
+          args: --out ../../dist
+      - uses: actions/upload-artifact@v4
+        with: { name: dist-sdist, path: dist/*.tar.gz }
+
+  publish:
+    needs: [wheels, linux-aarch64-smoke, sdist]
+    runs-on: ubuntu-latest
+    environment: ${{ (github.event_name == 'push' || inputs.target == 'pypi') && 'pypi' || 'testpypi' }}
+    permissions:
+      id-token: write   # trusted publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v4
+      - name: name guard (ADR 0006, never publish under the working name)
+        run: |
+          grep -q '^name = "intakeguard"$' bindings/python/pyproject.toml \
+            || { echo "refusing to publish: package is not named 'intakeguard' (run tools/migrate first)"; exit 1; }
+      - uses: actions/download-artifact@v4
+        with: { pattern: dist-*, merge-multiple: true, path: dist }
+      - run: |
+          ls -la dist
+          ls dist | grep -v '^intakeguard-' && { echo "unexpected artifact name"; exit 1; } || true
+      - name: publish to TestPyPI
+        if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+      - name: publish to PyPI
+        if: github.event_name == 'push' || inputs.target == 'pypi'
+        uses: pypa/gh-action-pypi-publish@release/v1

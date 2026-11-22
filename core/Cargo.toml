@@ -1,0 +1,25 @@
+[package]
+name = "intakeguard-core"
+description = "IntakeGuard inspection engine (ADR 0002 bake-off slice: inspect only)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+# Pure-Rust, no unsafe in the inflate path. Parses untrusted input: needs human sign-off (maintainer gate in CONTRIBUTING.md).
+miniz_oxide = "0.8"
+sha2 = "0.10"
+# Image codecs for decode-reencode. Parse untrusted input: approved by the project owner on
+# 2026-11-22 (per-format crates, pure Rust). Our own header checks run first, so declared
+# dimension bombs never reach a decoder.
+png = "0.17"
+zune-jpeg = "0.4"
+jpeg-encoder = "0.6"
+image-webp = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[dev-dependencies]
+serde_json = "1"
+miniz_oxide = "0.8"  # tests build Flate streams

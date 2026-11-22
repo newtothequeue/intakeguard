@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = ["core", "bindings/python"]
+
+[workspace.package]
+version = "0.1.0-alpha.1"
+edition = "2021"
+license = "Apache-2.0"
+publish = false
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "unwind"   # panics are caught at the API boundary and reported as verdict=error

@@ -1,0 +1,12 @@
+corpus/build/
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+target/
+dist/
+.DS_Store
+
+# example output
+examples/python-rag-ingestion/out/
+examples/python-rag-ingestion/out-llama-index/

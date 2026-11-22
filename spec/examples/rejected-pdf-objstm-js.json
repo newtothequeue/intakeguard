@@ -1,0 +1,29 @@
+{
+  "reportVersion": "0.1",
+  "engineVersion": "0.0.0-example",
+  "policyVersion": "0.1",
+  "policyDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "verdict": "rejected",
+  "detectedType": { "mime": "application/pdf", "confidence": "structural" },
+  "claimed": { "filename": "document.pdf", "extension": "pdf", "mime": "application/pdf" },
+  "reasonCodes": ["PDF_ACTIVE_CONTENT"],
+  "checks": [
+    { "id": "type.detect", "status": "passed" },
+    { "id": "type.allowlist", "status": "passed" },
+    { "id": "limit.bytes", "status": "passed" },
+    { "id": "pdf.structure", "status": "passed" },
+    { "id": "pdf.encryption", "status": "passed" },
+    { "id": "pdf.active-content", "status": "failed", "reasonCode": "PDF_ACTIVE_CONTENT", "detail": "Catalog /OpenAction -> /S /JavaScript (object 6, inside ObjStm 7)" },
+    { "id": "pdf.pages", "status": "skipped", "detail": "short-circuited after rejection" }
+  ],
+  "transformations": [],
+  "original": {
+    "sha256": "7631d70ed96a8516623e5964432491f4cfc4160ab8f12e151fee6b24a1fc4354",
+    "bytes": 775,
+    "quarantineHandle": "q_02example"
+  },
+  "output": null,
+  "warnings": [],
+  "nonGuarantees": [],
+  "timing": { "processingMs": 0.9 }
+}

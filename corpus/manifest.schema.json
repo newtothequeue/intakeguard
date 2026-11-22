@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intakeguard.dev/corpus/manifest.schema.json",
+  "title": "IntakeGuard corpus fixture",
+  "description": "One row of corpus/manifest.jsonl. The expected outcome is the oracle; whoever implements the engine must not edit it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "generator",
+    "file",
+    "sha256",
+    "bytes",
+    "family",
+    "threats",
+    "claimedMime",
+    "policy",
+    "expected",
+    "oracle",
+    "review",
+    "publication"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "generator": {
+      "description": "Path under corpus/generators/, e.g. adversarial/pdfs.py",
+      "type": "string"
+    },
+    "file": {
+      "description": "Filename presented to the engine (the extension matters for mismatch checks).",
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "family": {
+      "type": "string"
+    },
+    "threats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^T[0-9]+$"
+      }
+    },
+    "claimedMime": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policy": {
+      "description": "Policy file name in corpus/policies/ (without .json).",
+      "type": "string"
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verdict"
+      ],
+      "properties": {
+        "verdict": {
+          "enum": [
+            "accepted",
+            "transformed",
+            "rejected"
+          ]
+        },
+        "detectedMime": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reasonCodesInclude": {
+          "description": "Every one of these must be present.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reasonCodesAnyOf": {
+          "description": "At least one of these must be present (allows short-circuiting).",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reasonCodesExclude": {
+          "description": "None of these may be present.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputAssertions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "no-exif",
+              "no-xmp",
+              "no-gps",
+              "no-jpeg-app1-app15",
+              "no-jpeg-com",
+              "no-png-text-chunks",
+              "no-png-exif-chunk",
+              "same-dimensions",
+              "decodes",
+              "reinspect-passes",
+              "idempotent",
+              "differs-from-original",
+              "has-alpha"
+            ]
+          }
+        },
+        "resourceBounds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxPeakRssMiB": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "maxProcessingMs": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "outputMime": {
+          "description": "MIME type the output must have (transformed only).",
+          "type": "string"
+        },
+        "outputDimensions": {
+          "description": "[width, height] the output must have, after EXIF orientation (transformed only).",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "oracle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "confidence"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "spec-clause",
+            "format-spec",
+            "reference-tool",
+            "manual-structure",
+            "multi-assessor"
+          ]
+        },
+        "reference": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "unreviewed",
+            "reviewed",
+            "disputed"
+          ]
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "publication": {
+      "enum": [
+        "safe-to-distribute",
+        "synthetic-only",
+        "restricted",
+        "metadata-only"
+      ]
+    }
+  }
+}

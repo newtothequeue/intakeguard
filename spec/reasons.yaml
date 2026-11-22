@@ -1,0 +1,166 @@
+# IntakeGuard reason-code registry.
+# IDs are immutable: never rename or reuse one. To retire a code, set lifecycle: deprecated and add a replacement.
+# severity: reject (this code alone forces rejected) | warn (reported, verdict unaffected) | error (processing failure, treated as rejected)
+version: "0.1"
+codes:
+  # --- type ---
+  - id: TYPE_UNKNOWN
+    severity: reject
+    formats: ["*"]
+    message: "File type could not be determined from content."
+    lifecycle: active
+  - id: TYPE_NOT_ALLOWED
+    severity: reject
+    formats: ["*"]
+    message: "Detected type is not in the policy allowlist."
+    lifecycle: active
+  - id: TYPE_MISMATCH_EXTENSION
+    severity: reject   # downgraded to a warning when the policy has typeMismatch: warn
+    formats: ["*"]
+    message: "Detected type does not match the file extension."
+    lifecycle: active
+  - id: TYPE_MISMATCH_CLAIMED_MIME
+    severity: reject   # downgraded to a warning when the policy has typeMismatch: warn
+    formats: ["*"]
+    message: "Detected type does not match the claimed Content-Type."
+    lifecycle: active
+  - id: TYPE_POLYGLOT
+    severity: reject
+    formats: ["*"]
+    message: "Content is structurally valid as more than one format."
+    lifecycle: active
+  - id: INPUT_EMPTY
+    severity: reject
+    formats: ["*"]
+    message: "Input has zero bytes."
+    lifecycle: active
+
+  # --- limits ---
+  - id: LIMIT_BYTES_EXCEEDED
+    severity: reject
+    formats: ["*"]
+    message: "Input exceeds maxBytes."
+    lifecycle: active
+  - id: LIMIT_IMAGE_PIXELS_EXCEEDED
+    severity: reject
+    formats: ["image/*"]
+    message: "Declared image pixel count exceeds maxImagePixels."
+    lifecycle: active
+  - id: LIMIT_IMAGE_DIMENSION_EXCEEDED
+    severity: reject
+    formats: ["image/*"]
+    message: "Declared image width or height exceeds maxImageDimension."
+    lifecycle: active
+  - id: LIMIT_PDF_PAGES_EXCEEDED
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF page count exceeds maxPdfPages."
+    lifecycle: active
+  - id: LIMIT_PDF_OBJECTS_EXCEEDED
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF object count exceeds maxPdfObjects."
+    lifecycle: active
+  - id: LIMIT_DECOMPRESSED_BYTES_EXCEEDED
+    severity: reject
+    formats: ["*"]
+    message: "Decompressed content exceeds maxDecompressedBytes."
+    lifecycle: active
+  - id: LIMIT_TIME_EXCEEDED
+    severity: reject
+    formats: ["*"]
+    message: "Processing exceeded maxProcessingMs."
+    lifecycle: active
+
+  # --- structure ---
+  - id: STRUCTURE_TRUNCATED
+    severity: reject
+    formats: ["*"]
+    message: "File ends before required structures are complete."
+    lifecycle: active
+  - id: STRUCTURE_MALFORMED
+    severity: reject
+    formats: ["*"]
+    message: "File violates its format's structural requirements."
+    lifecycle: active
+  - id: UNSUPPORTED_FEATURE
+    severity: reject
+    formats: ["*"]
+    message: "File uses a feature this engine version cannot safely process."
+    lifecycle: active
+
+  # --- images ---
+  - id: IMAGE_METADATA_PRESENT
+    severity: reject   # reported as a warning when the policy has metadata: remove (the metadata is stripped)
+    formats: ["image/*"]
+    message: "Image contains metadata (EXIF/XMP/IPTC/ICC comments/text chunks)."
+    lifecycle: active
+  - id: IMAGE_GPS_PRESENT
+    severity: warn
+    formats: ["image/jpeg", "image/png", "image/webp"]
+    message: "Image metadata contains GPS location data."
+    lifecycle: active
+
+  # --- pdf ---
+  - id: PDF_ACTIVE_CONTENT
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF contains active content: an action outside the inert allowlist (e.g. JavaScript, Launch, SubmitForm, ImportData), a JavaScript names tree, RichMedia, or XFA. See format-guarantees.md#pdf."
+    lifecycle: active
+  - id: PDF_EMBEDDED_FILE
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF contains embedded files."
+    lifecycle: active
+  - id: PDF_ENCRYPTED
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF is encrypted; content cannot be inspected."
+    lifecycle: active
+  - id: PDF_EXTERNAL_LINK
+    severity: warn
+    formats: ["application/pdf"]
+    message: "PDF contains URI or remote GoTo actions."
+    lifecycle: active
+  - id: PDF_OBFUSCATED_NAME
+    severity: reject
+    formats: ["application/pdf"]
+    message: "PDF uses hex-escaped name tokens for security-relevant keys (a common evasion technique)."
+    lifecycle: active
+  - id: PDF_HIDDEN_CONTENT_SUSPECTED
+    severity: warn
+    formats: ["application/pdf"]
+    message: "Heuristic: text likely invisible to a human reader (render mode 3, off-page, tiny or white-on-white). Not a prompt-injection guarantee."
+    lifecycle: active
+  - id: PDF_TRAILING_DATA
+    severity: warn
+    formats: ["application/pdf"]
+    message: "Data after the final %%EOF."
+    lifecycle: active
+
+  # --- engine ---
+  - id: TRANSFORM_FAILED
+    severity: error
+    formats: ["*"]
+    message: "Sanitizing transformation failed; no output produced."
+    lifecycle: active
+  - id: SCANNER_FLAGGED
+    severity: reject
+    formats: ["*"]
+    message: "An external scanner plugin flagged the file."
+    lifecycle: active
+  - id: SCANNER_ERROR
+    severity: error
+    formats: ["*"]
+    message: "An external scanner plugin failed."
+    lifecycle: active
+  - id: ENGINE_INTERNAL_ERROR
+    severity: error
+    formats: ["*"]
+    message: "Unexpected engine failure. Treated as rejected."
+    lifecycle: active
+  - id: ENGINE_CANCELLED   # added in spec 0.1.1
+    severity: error
+    formats: ["*"]
+    message: "Processing was cancelled by the caller. Treated as rejected."
+    lifecycle: active

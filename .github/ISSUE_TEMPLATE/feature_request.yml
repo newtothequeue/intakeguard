@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest a format, check, adapter or integration
+labels: ["feature-request"]
+body:
+  - type: textarea
+    id: stack
+    attributes:
+      label: Your upload or ingestion stack
+      description: Framework, language, where files go next (storage, parser, LLM pipeline...)
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to prevent?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you want IntakeGuard to do?
+  - type: dropdown
+    id: pilot
+    attributes:
+      label: Would you try an early build on a real app?
+      options: ["Yes, happy to pair on it", "Maybe", "No"]

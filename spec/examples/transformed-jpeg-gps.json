@@ -1,0 +1,37 @@
+{
+  "reportVersion": "0.1",
+  "engineVersion": "0.0.0-example",
+  "policyVersion": "0.1",
+  "policyDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+  "verdict": "transformed",
+  "detectedType": { "mime": "image/jpeg", "confidence": "structural" },
+  "claimed": { "filename": "photo.jpg", "extension": "jpg", "mime": "image/jpeg" },
+  "reasonCodes": ["IMAGE_METADATA_PRESENT", "IMAGE_GPS_PRESENT"],
+  "checks": [
+    { "id": "type.detect", "status": "passed" },
+    { "id": "type.allowlist", "status": "passed" },
+    { "id": "type.mismatch", "status": "passed" },
+    { "id": "limit.bytes", "status": "passed" },
+    { "id": "image.dimensions", "status": "passed" },
+    { "id": "image.metadata", "status": "failed", "reasonCode": "IMAGE_METADATA_PRESENT", "detail": "APP1/EXIF present; removed by policy" },
+    { "id": "scanner", "status": "skipped", "detail": "no scanners configured" }
+  ],
+  "transformations": [
+    { "id": "image.decode-reencode" },
+    { "id": "image.metadata-removed", "detail": "EXIF (incl. GPS IFD)" }
+  ],
+  "original": {
+    "sha256": "58f550c66ff211d39346337520d8b8614a31a9971e2b57e648a43156806c9544",
+    "bytes": 799,
+    "quarantineHandle": "q_01example"
+  },
+  "output": {
+    "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "bytes": 612,
+    "mime": "image/jpeg",
+    "handle": "o_01example"
+  },
+  "warnings": ["IMAGE_GPS_PRESENT: location metadata was present in the original"],
+  "nonGuarantees": ["not scanned for malware", "pixel data re-encoded; not bit-identical"],
+  "timing": { "processingMs": 3.2 }
+}

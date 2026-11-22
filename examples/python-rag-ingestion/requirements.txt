@@ -1,0 +1,5 @@
+# Example only. IntakeGuard itself comes from the local wheel (see README).
+langchain-core>=0.3,<2
+langchain-text-splitters>=0.3,<2
+pypdf>=4
+llama-index-core>=0.12,<1

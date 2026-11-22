@@ -1,0 +1,71 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  spec-and-corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r tools/requirements.txt
+      - run: make check
+
+  core-native:
+    # Native Rust core + PyO3 wheel on every supported platform, each gated by the conformance run
+    # (tools/benchmark/bakeoff.py --quick --gate). The corpus is regenerated and hash-checked on each
+    # platform too, so generator determinism is verified across OSes.
+    name: core-native (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: linux-x86_64,   os: ubuntu-latest }
+          - { name: macos-arm64,    os: macos-15 }
+          - { name: macos-x86_64,   os: macos-15-intel }
+          - { name: windows-x86_64, os: windows-latest }
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: python -m pip install -r tools/requirements.txt maturin
+      - name: corpus (build + hash check on this platform)
+        run: python tools/corpus-verify/verify.py
+      - run: cargo test --release -p intakeguard-core
+      - run: cargo build --release -p intakeguard-core --example inspect_file
+      - name: wheel
+        run: cd bindings/python && maturin build --release -o ../../target/wheels
+      - name: install wheel
+        run: python -m pip install target/wheels/*.whl
+      - name: wheel platform tag
+        run: ls target/wheels && python -c "import intakeguard, platform; print(intakeguard.ENGINE_VERSION, platform.platform(), platform.machine())"
+      - name: conformance gate
+        run: python tools/benchmark/bakeoff.py --quick --gate --out target/bakeoff-${{ matrix.name }}.json
+      - name: wrapper tests + RAG demo
+        run: |
+          python -m pip install pytest -r examples/python-rag-ingestion/requirements.txt
+          python -m pytest -q -rs bindings/python/tests
+          python examples/python-rag-ingestion/ingest.py --demo --check --out target/rag-demo
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: intakeguard-${{ matrix.name }}
+          path: |
+            target/wheels/*.whl
+            target/bakeoff-${{ matrix.name }}.json
+          if-no-files-found: warn

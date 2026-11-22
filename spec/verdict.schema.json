@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://intakeguard.dev/spec/verdict.schema.json",
+  "title": "IntakeGuard Inspection Report",
+  "description": "Result of processing one input under one policy. Consumers MUST treat verdict=error exactly like verdict=rejected.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["reportVersion", "engineVersion", "policyVersion", "policyDigest", "verdict", "reasonCodes", "checks", "original"],
+  "properties": {
+    "reportVersion": { "description": "0.2 adds policyDecision and original.complete (both optional, additive).", "enum": ["0.1", "0.2"] },
+    "policyDecision": {
+      "description": "What the policy decided before any transformation. Lets an inspect-only caller see 'transform' while verdict stays rejected because no output artifact exists. verdict is still the only field consumers may act on.",
+      "enum": ["accept", "transform", "reject", "error"]
+    },
+    "engineVersion": { "type": "string" },
+    "policyVersion": { "type": "string" },
+    "policyDigest": { "description": "sha256 of the canonicalized effective policy (defaults applied).", "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "verdict": {
+      "description": "accepted: passed checks, no transformation, the original may be used. transformed: passed checks, and ONLY output may be used. rejected: do not use. error: processing failed; treat as rejected.",
+      "enum": ["accepted", "transformed", "rejected", "error"]
+    },
+    "detectedType": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "mime": { "type": "string" },
+        "confidence": { "enum": ["structural", "signature", "none"] }
+      }
+    },
+    "claimed": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "filename": { "type": ["string", "null"] },
+        "extension": { "type": ["string", "null"] },
+        "mime": { "type": ["string", "null"] }
+      }
+    },
+    "reasonCodes": {
+      "description": "Codes registered in spec/reasons.yaml. Empty only when verdict is accepted or transformed with no warnings.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$" }
+    },
+    "checks": {
+      "description": "Every check the engine knows about for this format, with its outcome. 'skipped' never counts as a pass.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["passed", "failed", "skipped"] },
+          "reasonCode": { "type": "string" },
+          "detail": { "type": "string", "maxLength": 500 }
+        }
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": { "enum": ["image.decode-reencode", "image.metadata-removed", "image.format-converted"] },
+          "detail": { "type": "string", "maxLength": 500 }
+        }
+      }
+    },
+    "original": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "bytes"],
+      "properties": {
+        "sha256": { "description": "Hash of the bytes the engine read. If complete is false, this covers only the prefix read before a limit stopped reading.", "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "complete": { "description": "False when a stream limit stopped reading before end of input. Absent means true (report 0.1).", "type": "boolean" },
+        "quarantineHandle": { "type": ["string", "null"] }
+      }
+    },
+    "output": {
+      "description": "Present if and only if verdict is transformed. output.sha256 MUST differ from original.sha256.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["sha256", "bytes", "mime", "handle"],
+      "properties": {
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "mime": { "type": "string" },
+        "handle": { "type": "string" }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "nonGuarantees": {
+      "description": "Short notes on what this verdict does not establish, e.g. 'not scanned for malware'.",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": { "processingMs": { "type": "number", "minimum": 0 } }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "verdict": { "const": "transformed" } } },
+      "then": { "required": ["output"], "properties": { "output": { "type": "object" } } },
+      "else": { "properties": { "output": { "type": "null" } } }
+    }
+  ]
+}

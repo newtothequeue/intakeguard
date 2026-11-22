@@ -1,0 +1,2731 @@
+{
+  "engine": "intakeguard-core/0.0.1-bakeoff",
+  "python": "3.13.18",
+  "platform": "Linux x86_64",
+  "cpu": "x86_64",
+  "conformance": {
+    "fixtures": 80,
+    "reviewed": 0,
+    "reportPass": 80,
+    "decisionPass": 80,
+    "invariantViolations": 0,
+    "outputAssertions": 79,
+    "outputAssertionFailures": 0
+  },
+  "pythonProcessPeakRssMiB": 1138.4,
+  "cancellation": {
+    "uncancelledFullDecodeMs": 563.7,
+    "uncancelledVerdict": "accepted",
+    "runs": 6,
+    "cancelled": 6,
+    "finishedBeforeCancel": 0,
+    "finishedBeforeNoticingCancel": 0,
+    "notCancelledAfterCancel": [],
+    "cancelToReturnMs": {
+      "p50": 4.244,
+      "p95": 9.069,
+      "max": 9.069
+    },
+    "ok": true
+  },
+  "deadline": {
+    "maxProcessingMs": 10,
+    "returnedAfterMs": 20.3,
+    "verdict": "rejected",
+    "codes": [
+      "LIMIT_TIME_EXCEEDED"
+    ]
+  },
+  "overLimitStreams": [
+    {
+      "policy": "small-limits (4 KiB)",
+      "maxBytes": 4096,
+      "bytesPulled": 4097,
+      "bytesRead": 4097,
+      "guaranteeMax(maxBytes+chunk)": 69632,
+      "ok": true,
+      "verdict": "rejected",
+      "codes": [
+        "LIMIT_BYTES_EXCEEDED"
+      ],
+      "originalComplete": false,
+      "ms": 0.19
+    },
+    {
+      "policy": "strict (10 MiB)",
+      "maxBytes": 10485760,
+      "bytesPulled": 10485761,
+      "bytesRead": 10485761,
+      "guaranteeMax(maxBytes+chunk)": 10551296,
+      "ok": true,
+      "verdict": "rejected",
+      "codes": [
+        "LIMIT_BYTES_EXCEEDED"
+      ],
+      "originalComplete": false,
+      "ms": 16.93
+    }
+  ],
+  "mutationSmoke": {
+    "cases": 2000,
+    "seed": 20261121,
+    "panics": 0,
+    "schemaInvalidSampled": 0,
+    "invariantViolations": 0,
+    "verdicts": {
+      "rejected": 1971,
+      "accepted": 19,
+      "transformed": 10
+    },
+    "acceptedBySeed": {
+      "benign-pdf-empty-flate-stream": 3,
+      "pdf-hidden-text-lzw": 1,
+      "benign-pdf-xref-free-gen-65536": 2,
+      "benign-pdf-eod-whitespace-flate": 1,
+      "benign-pdf-openaction-destination": 2,
+      "pdf-hidden-text-asciihex": 2,
+      "benign-pdf-eod-whitespace-ascii85": 1,
+      "benign-pdf-lzw-content": 2,
+      "benign-pdf-openaction-goto": 1,
+      "pdf-hidden-text-render-mode-3": 1,
+      "benign-pdf-outline-goto-named": 1,
+      "benign-pdf-eod-whitespace-runlength": 1,
+      "pdf-trailing-data": 1
+    },
+    "worstMs": 398.511,
+    "totalS": 2.33
+  },
+  "transformPerf": [
+    {
+      "image": "4000x3000-jpeg",
+      "inBytes": 2650120,
+      "verdict": "transformed",
+      "codes": [],
+      "outBytes": 3886696,
+      "nativeMs": 278.0835,
+      "peakRssMiB": 43.73,
+      "strictPolicy": {
+        "verdict": "transformed",
+        "codes": []
+      }
+    },
+    {
+      "image": "4000x3000-png",
+      "inBytes": 17155754,
+      "verdict": "transformed",
+      "codes": [],
+      "outBytes": 21928620,
+      "nativeMs": 1671.9991,
+      "peakRssMiB": 116.49,
+      "strictPolicy": {
+        "verdict": "rejected",
+        "codes": [
+          "LIMIT_BYTES_EXCEEDED"
+        ]
+      }
+    },
+    {
+      "image": "4000x3000-webp",
+      "inBytes": 1302938,
+      "verdict": "transformed",
+      "codes": [],
+      "outBytes": 3631274,
+      "nativeMs": 504.0793,
+      "peakRssMiB": 57.09,
+      "strictPolicy": {
+        "verdict": "transformed",
+        "codes": []
+      }
+    },
+    {
+      "image": "4000x3000-webp-lossless",
+      "inBytes": 12086324,
+      "verdict": "transformed",
+      "codes": [],
+      "outBytes": 21528446,
+      "nativeMs": 520.1204,
+      "peakRssMiB": 115.55,
+      "strictPolicy": {
+        "verdict": "rejected",
+        "codes": [
+          "LIMIT_BYTES_EXCEEDED"
+        ]
+      }
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "benign-png-8x8",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 86,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": true,
+        "psnrVsUprightOriginal": null,
+        "pixelExactVsOriginal": true,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0492,
+        "p95": 0.0846,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.34,
+        "deltaMiB": 0.57,
+        "nativeLatencyMs": {
+          "p50": 0.0899,
+          "p95": 0.1421,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-jpeg-8x8",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 632,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": false,
+        "psnrVsUprightOriginal": Infinity,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0434,
+        "p95": 0.0593,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.09,
+        "deltaMiB": 0.27,
+        "nativeLatencyMs": {
+          "p50": 0.0306,
+          "p95": 0.0621,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-webp-8x8",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 118,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": true,
+        "psnrVsUprightOriginal": null,
+        "pixelExactVsOriginal": true,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0294,
+        "p95": 0.0443,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.07,
+        "deltaMiB": 0.26,
+        "nativeLatencyMs": {
+          "p50": 0.0215,
+          "p95": 0.0566,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-1page",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0283,
+        "p95": 0.0432,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.21,
+        "nativeLatencyMs": {
+          "p50": 0.0154,
+          "p95": 0.0293,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-uri-link",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_EXTERNAL_LINK"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0344,
+        "p95": 0.0583,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.35,
+        "nativeLatencyMs": {
+          "p50": 0.0315,
+          "p95": 0.0583,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "type-png-named-jpg",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "TYPE_MISMATCH_EXTENSION",
+        "TYPE_MISMATCH_CLAIMED_MIME"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0182,
+        "p95": 0.0272,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.83,
+        "deltaMiB": 0.14,
+        "nativeLatencyMs": {
+          "p50": 0.0103,
+          "p95": 0.017,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "type-exe-named-png",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "TYPE_UNKNOWN"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0133,
+        "p95": 0.0186,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.96,
+        "deltaMiB": 0.1,
+        "nativeLatencyMs": {
+          "p50": 0.0055,
+          "p95": 0.0118,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "type-zero-bytes",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "INPUT_EMPTY"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0138,
+        "p95": 0.0171,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.95,
+        "deltaMiB": 0.1,
+        "nativeLatencyMs": {
+          "p50": 0.01,
+          "p95": 0.0194,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "type-gif-unsupported",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "TYPE_NOT_ALLOWED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0155,
+        "p95": 0.0258,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.96,
+        "deltaMiB": 0.14,
+        "nativeLatencyMs": {
+          "p50": 0.0081,
+          "p95": 0.0135,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "polyglot-jpeg-pdf",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "TYPE_POLYGLOT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0144,
+        "p95": 0.0187,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.85,
+        "deltaMiB": 0.12,
+        "nativeLatencyMs": {
+          "p50": 0.0142,
+          "p95": 0.0236,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-meta-jpeg-exif-gps",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [
+        "IMAGE_METADATA_PRESENT",
+        "IMAGE_GPS_PRESENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 632,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": false,
+        "psnrVsUprightOriginal": Infinity,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0559,
+        "p95": 0.0849,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.09,
+        "deltaMiB": 0.3,
+        "nativeLatencyMs": {
+          "p50": 0.0303,
+          "p95": 0.0605,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-meta-png-text-exif",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [
+        "IMAGE_METADATA_PRESENT",
+        "IMAGE_GPS_PRESENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 86,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": true,
+        "psnrVsUprightOriginal": null,
+        "pixelExactVsOriginal": true,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0535,
+        "p95": 0.0952,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.45,
+        "deltaMiB": 0.61,
+        "nativeLatencyMs": {
+          "p50": 0.1267,
+          "p95": 0.2085,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-bomb-png-dimensions",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_IMAGE_DIMENSION_EXCEEDED",
+        "LIMIT_IMAGE_PIXELS_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 64,
+        "maxProcessingMs": 200
+      },
+      "latencyMs": {
+        "p50": 0.0252,
+        "p95": 0.0375,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.16,
+        "nativeLatencyMs": {
+          "p50": 0.0116,
+          "p95": 0.0643,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-bomb-jpeg-dimensions",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_IMAGE_DIMENSION_EXCEEDED",
+        "LIMIT_IMAGE_PIXELS_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 64,
+        "maxProcessingMs": 200
+      },
+      "latencyMs": {
+        "p50": 0.0228,
+        "p95": 0.0333,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.98,
+        "deltaMiB": 0.11,
+        "nativeLatencyMs": {
+          "p50": 0.0097,
+          "p95": 0.0185,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-truncated-png",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_TRUNCATED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0213,
+        "p95": 0.0295,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.85,
+        "deltaMiB": 0.14,
+        "nativeLatencyMs": {
+          "p50": 0.0135,
+          "p95": 0.0269,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "limit-bytes-over-png",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_BYTES_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 32
+      },
+      "latencyMs": {
+        "p50": 0.0266,
+        "p95": 0.0417,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.98,
+        "deltaMiB": 0.15,
+        "nativeLatencyMs": {
+          "p50": 0.0179,
+          "p95": 0.0267,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-openaction-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0449,
+        "p95": 0.0791,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0254,
+          "p95": 0.1491,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-evasion-js-in-objstm",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0697,
+        "p95": 0.1118,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.22,
+        "deltaMiB": 0.35,
+        "nativeLatencyMs": {
+          "p50": 0.0422,
+          "p95": 0.1036,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-evasion-hex-name",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT",
+        "PDF_OBFUSCATED_NAME"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0435,
+        "p95": 0.0676,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.1,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.0199,
+          "p95": 0.0478,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-evasion-incremental-update",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0472,
+        "p95": 0.0723,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.01,
+        "deltaMiB": 0.21,
+        "nativeLatencyMs": {
+          "p50": 0.0287,
+          "p95": 0.0616,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-embedded-file",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_EMBEDDED_FILE"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0456,
+        "p95": 0.0893,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.39,
+        "nativeLatencyMs": {
+          "p50": 0.0267,
+          "p95": 0.0547,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-encrypted",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ENCRYPTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0435,
+        "p95": 0.0629,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.0,
+        "deltaMiB": 0.29,
+        "nativeLatencyMs": {
+          "p50": 0.0483,
+          "p95": 0.2882,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-pages-over-limit",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_PDF_PAGES_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.3495,
+        "p95": 0.4543,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.34,
+        "deltaMiB": 0.45,
+        "nativeLatencyMs": {
+          "p50": 0.3022,
+          "p95": 0.4233,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-bomb-flate",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_DECOMPRESSED_BYTES_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 160,
+        "maxProcessingMs": 3000
+      },
+      "latencyMs": {
+        "p50": 258.2642,
+        "p95": 291.9609,
+        "n": 3
+      },
+      "rss": {
+        "peakMiB": 3.4,
+        "deltaMiB": 0.43,
+        "nativeLatencyMs": {
+          "p50": 162.0476,
+          "p95": 187.8953,
+          "n": 3
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-truncated",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_TRUNCATED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0267,
+        "p95": 0.0429,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.85,
+        "deltaMiB": 0.16,
+        "nativeLatencyMs": {
+          "p50": 0.0241,
+          "p95": 0.0459,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-trailing-data",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_TRAILING_DATA"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0335,
+        "p95": 0.0513,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.33,
+        "nativeLatencyMs": {
+          "p50": 0.0241,
+          "p95": 0.0491,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-render-mode-3",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0383,
+        "p95": 0.0666,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0256,
+          "p95": 0.0586,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-openaction-destination",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0358,
+        "p95": 0.0708,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.32,
+        "nativeLatencyMs": {
+          "p50": 0.0271,
+          "p95": 0.0498,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-openaction-goto",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0362,
+        "p95": 0.0522,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.22,
+        "nativeLatencyMs": {
+          "p50": 0.0368,
+          "p95": 0.0729,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-empty-flate-stream",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0354,
+        "p95": 0.0684,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.24,
+        "nativeLatencyMs": {
+          "p50": 0.0374,
+          "p95": 0.068,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-xref-free-gen-65536",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.034,
+        "p95": 0.0443,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.02,
+          "p95": 0.0364,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-outline-goto-named",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.04,
+        "p95": 0.0773,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.0,
+        "deltaMiB": 0.19,
+        "nativeLatencyMs": {
+          "p50": 0.0327,
+          "p95": 0.0554,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-goto-next-chain-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0399,
+        "p95": 0.0503,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.18,
+        "nativeLatencyMs": {
+          "p50": 0.0277,
+          "p95": 0.0594,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-next-cycle-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0381,
+        "p95": 0.0715,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.03,
+        "deltaMiB": 0.35,
+        "nativeLatencyMs": {
+          "p50": 0.0273,
+          "p95": 0.0752,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-rendition-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0376,
+        "p95": 0.0547,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.03,
+        "deltaMiB": 0.21,
+        "nativeLatencyMs": {
+          "p50": 0.0314,
+          "p95": 0.0468,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-goto-with-js-key",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0341,
+        "p95": 0.0735,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.18,
+        "nativeLatencyMs": {
+          "p50": 0.0197,
+          "p95": 0.0335,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-action-missing-s",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0344,
+        "p95": 0.046,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.03,
+        "deltaMiB": 0.21,
+        "nativeLatencyMs": {
+          "p50": 0.0359,
+          "p95": 0.0804,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-page-aa-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0364,
+        "p95": 0.0499,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.1,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.036,
+          "p95": 0.0766,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-launch",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0356,
+        "p95": 0.0557,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0341,
+          "p95": 0.0784,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-xref-gen-out-of-range",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0273,
+        "p95": 0.0407,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.97,
+        "deltaMiB": 0.13,
+        "nativeLatencyMs": {
+          "p50": 0.023,
+          "p95": 0.0615,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-evasion-damaged-last-xref",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0276,
+        "p95": 0.0379,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.0,
+        "deltaMiB": 0.18,
+        "nativeLatencyMs": {
+          "p50": 0.0261,
+          "p95": 0.0655,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-outline-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0375,
+        "p95": 0.0876,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.1,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.0339,
+          "p95": 0.0704,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-outline-launch-indirect",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.035,
+        "p95": 0.0627,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.06,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.0389,
+          "p95": 0.0802,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-active-form-field-aa-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0331,
+        "p95": 0.0535,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.06,
+        "deltaMiB": 0.32,
+        "nativeLatencyMs": {
+          "p50": 0.0338,
+          "p95": 0.0845,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-jpeg-grayscale-8x8",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 400,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": false,
+        "psnrVsUprightOriginal": Infinity,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0314,
+        "p95": 0.0502,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.0,
+        "deltaMiB": 0.31,
+        "nativeLatencyMs": {
+          "p50": 0.0298,
+          "p95": 0.0768,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-tagged-structelem-attributes",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0389,
+        "p95": 0.0767,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.01,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0233,
+          "p95": 0.0336,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-bomb-png-iccp",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [
+        "IMAGE_METADATA_PRESENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "originalUndecodableByPillow": "ValueError: Decompressed data too large for PngImagePlugin.MAX_TEXT_CHUNK",
+        "outBytes": 86,
+        "outDims": [
+          8,
+          8
+        ],
+        "lossless": true,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 48,
+        "maxProcessingMs": 500
+      },
+      "latencyMs": {
+        "p50": 2.8121,
+        "p95": 2.9534,
+        "n": 5
+      },
+      "rss": {
+        "peakMiB": 4.49,
+        "deltaMiB": 0.62,
+        "nativeLatencyMs": {
+          "p50": 2.8109,
+          "p95": 3.1888,
+          "n": 5
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-objects-after-final-eof",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0199,
+        "p95": 0.0307,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.16,
+        "nativeLatencyMs": {
+          "p50": 0.0214,
+          "p95": 0.0567,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-filter-nonstandard",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "UNSUPPORTED_FEATURE"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0236,
+        "p95": 0.0312,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.02,
+          "p95": 0.035,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "jpeg-data-after-eoi",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0145,
+        "p95": 0.0228,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.96,
+        "deltaMiB": 0.16,
+        "nativeLatencyMs": {
+          "p50": 0.0084,
+          "p95": 0.014,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-webp-lossy-to-jpeg",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 651,
+        "outDims": [
+          16,
+          8
+        ],
+        "lossless": false,
+        "psnrVsUprightOriginal": 57.16,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0335,
+        "p95": 0.0474,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.08,
+        "deltaMiB": 0.4,
+        "nativeLatencyMs": {
+          "p50": 0.0437,
+          "p95": 0.0931,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "img-exif-orientation-6",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [
+        "IMAGE_METADATA_PRESENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 648,
+        "outDims": [
+          8,
+          16
+        ],
+        "lossless": false,
+        "psnrVsUprightOriginal": 54.15,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.029,
+        "p95": 0.0385,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.99,
+        "deltaMiB": 0.27,
+        "nativeLatencyMs": {
+          "p50": 0.0431,
+          "p95": 0.0817,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-png-36mp",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 119649,
+        "outDims": [
+          6000,
+          6000
+        ],
+        "lossless": true,
+        "psnrVsUprightOriginal": null,
+        "pixelExactVsOriginal": true,
+        "secondPassVerdict": "accepted"
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 640,
+        "maxProcessingMs": 8000
+      },
+      "latencyMs": {
+        "p50": 304.9155,
+        "p95": 418.6334,
+        "n": 3
+      },
+      "rss": {
+        "peakMiB": 107.95,
+        "deltaMiB": 104.4,
+        "nativeLatencyMs": {
+          "p50": 450.1305,
+          "p95": 504.9565,
+          "n": 3
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-webp-lossy-alpha-to-png",
+      "review": "unreviewed",
+      "expected": "transformed",
+      "verdict": "transformed",
+      "decision": "transform",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": {
+        "outBytes": 278,
+        "outDims": [
+          16,
+          8
+        ],
+        "lossless": true,
+        "psnrVsUprightOriginal": null,
+        "pixelExactVsOriginal": true,
+        "secondPassVerdict": "accepted",
+        "outAlphaMin": 0,
+        "origAlphaMin": 0,
+        "alphaExactVsOriginal": true
+      },
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0619,
+        "p95": 0.0885,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.33,
+        "deltaMiB": 0.46,
+        "nativeLatencyMs": {
+          "p50": 0.1337,
+          "p95": 0.1758,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-dupkey-s-goto-then-launch",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0301,
+        "p95": 0.0432,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.32,
+        "nativeLatencyMs": {
+          "p50": 0.0252,
+          "p95": 0.0693,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-dupkey-s-launch-then-goto",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0299,
+        "p95": 0.0412,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.03,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.0386,
+          "p95": 0.0929,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-dupkey-openaction-dest-then-launch",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0291,
+        "p95": 0.0391,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.39,
+        "nativeLatencyMs": {
+          "p50": 0.0246,
+          "p95": 0.0433,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-dupkey-names-empty-then-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0319,
+        "p95": 0.0487,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.06,
+        "deltaMiB": 0.39,
+        "nativeLatencyMs": {
+          "p50": 0.0258,
+          "p95": 0.0636,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-ascii85",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0323,
+        "p95": 0.0447,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.22,
+        "nativeLatencyMs": {
+          "p50": 0.024,
+          "p95": 0.058,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-asciihex",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0307,
+        "p95": 0.0406,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.11,
+        "deltaMiB": 0.33,
+        "nativeLatencyMs": {
+          "p50": 0.0228,
+          "p95": 0.0539,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-runlength",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0302,
+        "p95": 0.043,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.02,
+        "deltaMiB": 0.35,
+        "nativeLatencyMs": {
+          "p50": 0.0597,
+          "p95": 0.1371,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-lzw",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0333,
+        "p95": 0.0453,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 2.98,
+        "deltaMiB": 0.3,
+        "nativeLatencyMs": {
+          "p50": 0.0264,
+          "p95": 0.0587,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-chain-ascii85-flate",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0394,
+        "p95": 0.0536,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.12,
+        "deltaMiB": 0.3,
+        "nativeLatencyMs": {
+          "p50": 0.03,
+          "p95": 0.0633,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-hidden-text-chain-asciihex-lzw",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [
+        "PDF_HIDDEN_CONTENT_SUSPECTED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0344,
+        "p95": 0.0584,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.07,
+        "deltaMiB": 0.35,
+        "nativeLatencyMs": {
+          "p50": 0.042,
+          "p95": 0.082,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-objstm-asciihex-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0447,
+        "p95": 0.0678,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.11,
+        "deltaMiB": 0.42,
+        "nativeLatencyMs": {
+          "p50": 0.0344,
+          "p95": 0.0614,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-objstm-lzw-js",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "PDF_ACTIVE_CONTENT"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0458,
+        "p95": 0.0597,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.14,
+        "deltaMiB": 0.28,
+        "nativeLatencyMs": {
+          "p50": 0.0552,
+          "p95": 0.1087,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-bomb-runlength",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "LIMIT_DECOMPRESSED_BYTES_EXCEEDED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": {
+        "maxPeakRssMiB": 64,
+        "maxProcessingMs": 3000
+      },
+      "latencyMs": {
+        "p50": 164.2503,
+        "p95": 349.0475,
+        "n": 5
+      },
+      "rss": {
+        "peakMiB": 5.05,
+        "deltaMiB": 0.37,
+        "nativeLatencyMs": {
+          "p50": 283.8147,
+          "p95": 326.8369,
+          "n": 5
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-ascii85-invalid",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0246,
+        "p95": 0.0346,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.22,
+        "nativeLatencyMs": {
+          "p50": 0.0281,
+          "p95": 0.0632,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-lzw-content",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.3189,
+        "p95": 0.371,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.37,
+        "nativeLatencyMs": {
+          "p50": 0.3848,
+          "p95": 0.4355,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-runlength",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.025,
+        "p95": 0.0543,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.06,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.0242,
+          "p95": 0.071,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-runlength-leading",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0244,
+        "p95": 0.0284,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.19,
+        "nativeLatencyMs": {
+          "p50": 0.0231,
+          "p95": 0.0625,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-ascii85",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0251,
+        "p95": 0.0428,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.06,
+        "deltaMiB": 0.33,
+        "nativeLatencyMs": {
+          "p50": 0.0227,
+          "p95": 0.0473,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-asciihex",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0244,
+        "p95": 0.0301,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.11,
+        "deltaMiB": 0.23,
+        "nativeLatencyMs": {
+          "p50": 0.025,
+          "p95": 0.0585,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-lzw",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0251,
+        "p95": 0.0318,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.07,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0251,
+          "p95": 0.0612,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "pdf-after-eod-flate",
+      "review": "unreviewed",
+      "expected": "rejected",
+      "verdict": "rejected",
+      "decision": "reject",
+      "reasonCodes": [
+        "STRUCTURE_MALFORMED"
+      ],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0288,
+        "p95": 0.0473,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.1,
+        "deltaMiB": 0.41,
+        "nativeLatencyMs": {
+          "p50": 0.0289,
+          "p95": 0.0572,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-eod-whitespace-runlength",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0217,
+        "p95": 0.0281,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.18,
+        "nativeLatencyMs": {
+          "p50": 0.0209,
+          "p95": 0.0472,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-eod-whitespace-ascii85",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0221,
+        "p95": 0.03,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.04,
+        "deltaMiB": 0.18,
+        "nativeLatencyMs": {
+          "p50": 0.0219,
+          "p95": 0.0588,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-eod-whitespace-asciihex",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0221,
+        "p95": 0.0403,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.05,
+        "deltaMiB": 0.32,
+        "nativeLatencyMs": {
+          "p50": 0.0211,
+          "p95": 0.0464,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-eod-whitespace-lzw",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0234,
+        "p95": 0.0309,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.07,
+        "deltaMiB": 0.34,
+        "nativeLatencyMs": {
+          "p50": 0.0226,
+          "p95": 0.04,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    },
+    {
+      "id": "benign-pdf-eod-whitespace-flate",
+      "review": "unreviewed",
+      "expected": "accepted",
+      "verdict": "accepted",
+      "decision": "accept",
+      "reasonCodes": [],
+      "reportMismatches": [],
+      "outputAssertionFailures": [],
+      "output": null,
+      "decisionMismatches": [],
+      "invariantViolations": [],
+      "resourceBounds": null,
+      "latencyMs": {
+        "p50": 0.0267,
+        "p95": 0.0319,
+        "n": 50
+      },
+      "rss": {
+        "peakMiB": 3.09,
+        "deltaMiB": 0.27,
+        "nativeLatencyMs": {
+          "p50": 0.0336,
+          "p95": 0.0728,
+          "n": 50
+        }
+      },
+      "withinBounds": true
+    }
+  ]
+}

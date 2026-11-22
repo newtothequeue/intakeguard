@@ -1,0 +1,40 @@
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "intakeguard"
+version = "0.1.0a1"
+description = "Local-first, policy-driven pre-flight checks and sanitization for untrusted PDFs and images in RAG and upload pipelines"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "The IntakeGuard contributors" }]
+keywords = ["pdf", "security", "sanitization", "rag", "langchain", "llamaindex", "upload", "exif", "file-validation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Rust",
+    "Topic :: Security",
+    "Topic :: Text Processing :: General",
+]
+
+[project.urls]
+Homepage = "https://github.com/newtothequeue/intakeguard"
+Source = "https://github.com/newtothequeue/intakeguard"
+Issues = "https://github.com/newtothequeue/intakeguard/issues"
+Security = "https://github.com/newtothequeue/intakeguard/security/policy"
+
+[project.optional-dependencies]
+langchain = ["langchain-core>=0.3,<2"]
+llama-index = ["llama-index-core>=0.12,<1"]
+
+[tool.maturin]
+python-source = "python"
+module-name = "intakeguard._native"
+features = ["pyo3/extension-module"]

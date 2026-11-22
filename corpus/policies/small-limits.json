@@ -1,0 +1,6 @@
+{
+  "version": "0.1",
+  "name": "small-limits",
+  "allow": ["image/jpeg", "image/png", "image/webp", "application/pdf"],
+  "limits": { "maxBytes": 4096 }
+}

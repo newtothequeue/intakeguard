@@ -1,0 +1,23 @@
+name: Bug / wrong verdict
+description: IntakeGuard (or a corpus fixture) produced the wrong outcome. For security bypasses, use private reporting instead (see SECURITY.md).
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version / commit
+  - type: textarea
+    id: policy
+    attributes:
+      label: Policy used
+      render: json
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected vs actual verdict and reason codes
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction (a generator script is ideal)

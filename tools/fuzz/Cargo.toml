@@ -1,0 +1,66 @@
+[package]
+name = "intakeguard-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+# Its own workspace: fuzzing needs nightly + libFuzzer and must never affect the stable build.
+[workspace]
+members = ["."]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+libfuzzer-sys = "0.4"
+intakeguard-core = { path = "../../core" }
+serde_json = "1"
+sha2 = "0.10"
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "sanitize_any"
+path = "fuzz_targets/sanitize_any.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pdf"
+path = "fuzz_targets/pdf.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "png"
+path = "fuzz_targets/png.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "jpeg"
+path = "fuzz_targets/jpeg.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "webp"
+path = "fuzz_targets/webp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "pdf_filters"
+path = "fuzz_targets/pdf_filters.rs"
+test = false
+doc = false
+bench = false

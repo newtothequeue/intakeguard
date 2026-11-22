@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "name": "strict",
+  "allow": ["image/jpeg", "image/png", "image/webp", "application/pdf"],
+  "typeMismatch": "reject",
+  "limits": {
+    "maxBytes": 10485760,
+    "maxImagePixels": 40000000,
+    "maxImageDimension": 12000,
+    "maxPdfPages": 100,
+    "maxPdfObjects": 100000,
+    "maxDecompressedBytes": 104857600,
+    "maxProcessingMs": 5000
+  },
+  "images": { "mode": "decode-reencode", "metadata": "remove", "outputFormat": "same" },
+  "pdf": {
+    "activeContent": "reject",
+    "embeddedFiles": "reject",
+    "encrypted": "reject",
+    "externalLinks": "warn",
+    "hiddenContent": "warn",
+    "malformed": "reject"
+  },
+  "unknownOrUnsupported": "reject"
+}
