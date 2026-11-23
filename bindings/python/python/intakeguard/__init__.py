@@ -1,25 +1,35 @@
-"""IntakeGuard inspect() slice (ADR 0002 bake-off). Not a released package; no security claims beyond
-spec/format-guarantees.md.
+"""IntakeGuard: local-first pre-flight checks and sanitization for untrusted files.
 
-Treat verdict "error" exactly like "rejected". Reports follow report version 0.2 (spec 0.1.1).
+Alpha. What a verdict does and does not mean is defined in spec/format-guarantees.md;
+nothing here claims more than that.
+
+Treat verdict "error" exactly like "rejected".
 
 - inspect(): every check, never an output artifact. An image the policy would re-encode comes
   back "rejected" (UNSUPPORTED_FEATURE) with policyDecision "transform".
 - sanitize(): the same checks, then decode-reencode for JPEG/PNG/WebP. On verdict "transformed",
   use Report.output (new bytes) and never the original.
+- Report.safe_bytes(original) returns the only bytes that may be passed on, or raises Rejected.
 """
 
 from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from importlib.metadata import PackageNotFoundError, version as _dist_version
 from typing import Any, BinaryIO, Optional, Union
 
 from ._native import ENGINE_VERSION, STREAM_CHUNK, CancelToken, CompiledPolicy
 from ._native import process_bytes as _process_bytes
 from ._native import process_stream as _process_stream
 
-__all__ = ["inspect", "sanitize", "Report", "Rejected", "Policy", "CancelToken", "ENGINE_VERSION", "STREAM_CHUNK"]
+try:
+    __version__ = _dist_version("intakeguard")
+except PackageNotFoundError:  # running from a source tree without installed package metadata
+    __version__ = "0+unknown"
+
+__all__ = ["inspect", "sanitize", "Report", "Rejected", "Policy", "CancelToken", "ENGINE_VERSION", "STREAM_CHUNK",
+           "__version__"]
 
 
 class Rejected(Exception):

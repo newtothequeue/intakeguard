@@ -38,7 +38,7 @@ pub struct Outcome {
     /// The report, valid against spec/verdict.schema.json.
     pub report: serde_json::Value,
     /// Policy decision before any transformation. Differs from the report verdict only when the
-    /// policy asks for a transformation this slice cannot perform.
+    /// policy asks for a transformation this release cannot perform.
     pub decision: Decision,
     /// Bytes actually pulled from the input (equals the input size unless the stream was cut off).
     pub bytes_read: u64,
@@ -220,8 +220,8 @@ fn run(ctx: &mut Ctx, policy: &Policy, claimed: &Claimed, data: &[u8], bytes: u6
     if policy.scanners.is_empty() {
         ctx.skip("scanner", "no scanners configured");
     } else {
-        // Configured scanners are not implemented in this slice; a check that wasn't run is not a pass.
-        ctx.fail("scanner", "SCANNER_ERROR", "scanner hooks are not implemented in the inspect() slice");
+        // Configured scanners are not implemented in this release; a check that wasn't run is not a pass.
+        ctx.fail("scanner", "SCANNER_ERROR", "scanner hooks are not implemented in this release");
     }
     let conf = if structural { "structural" } else { "signature" };
     let decision = if ctx.errored { Decision::Error }
