@@ -24,7 +24,7 @@ use sha2::{Digest, Sha256};
 pub use policy::Policy;
 use report::{Abort, Ctx, Decision, ReportInput};
 
-pub const ENGINE_VERSION: &str = concat!("intakeguard-core/", env!("CARGO_PKG_VERSION"), "-bakeoff");
+pub const ENGINE_VERSION: &str = concat!("intakeguard-core/", env!("CARGO_PKG_VERSION"));
 /// Largest single read when streaming.
 pub const STREAM_CHUNK: usize = 64 * 1024;
 
