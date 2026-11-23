@@ -69,7 +69,7 @@ jobs:
           python tools/corpus-verify/verify.py
           python -m pip install maturin
           cargo build --release -p intakeguard-core --example inspect_file
-          python tools/benchmark/bakeoff.py --quick --gate --out dist/conformance-${{ matrix.name }}.json
+          python tools/benchmark/bakeoff.py --quick --gate --out "$RUNNER_TEMP/conformance-${{ matrix.name }}.json"  # not dist/: the manylinux container creates dist/ as root
           python -m pip install pytest -r examples/python-rag-ingestion/requirements.txt
           python -m pytest -q bindings/python/tests
       - uses: actions/upload-artifact@v4
